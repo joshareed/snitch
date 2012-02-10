@@ -24,7 +24,7 @@ dependencies {
 }
 
 task release(dependsOn: configurations.default.allArtifacts.buildDependencies) << {
-    def dest = file("$buildDir/fatjar")
+	def dest = file("$buildDir/fatjar")
 	dest.mkdirs()
 
 	// expand all our dependencies
@@ -38,6 +38,6 @@ task release(dependsOn: configurations.default.allArtifacts.buildDependencies) <
 	}
 
 	// create our fatjar
-	mkdir("$buildDir/release")	
-  	ant.zip(destfile: "$buildDir/release/snitch-all-${version}.jar", basedir: dest)
+	mkdir("$buildDir/release")
+	ant.zip(destfile: "$buildDir/release/snitch-all-${version}.jar", basedir: dest)
 }

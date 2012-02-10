@@ -1,6 +1,10 @@
 package com.refactr.snitch;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +22,9 @@ public class SnitchEngine {
 			System.exit(1);
 		} else {
 			SnitchEngine engine = new SnitchEngine();
-			List<Violation> violations = engine.check(new File(args[0]));
+			SnitchResult results = engine.check(new File(args[0]));
 			// TODO output in various formats
-			for (Violation v : violations) {
+			for (Violation v : results.getViolations()) {
 				System.out.println(v);
 			}
 		}
@@ -36,7 +40,7 @@ public class SnitchEngine {
 		this.rules = rules;
 	}
 
-	public List<Violation> check(final File project) {
+	public SnitchResult check(final File project) {
 		long start = System.currentTimeMillis();
 
 		// discover rules if not specified
@@ -44,15 +48,24 @@ public class SnitchEngine {
 			rules = discoverRules();
 		}
 
+		SnitchResult results = new SnitchResult();
+
+		// find active rules for this session
+		List<Rule> activeRules = new ArrayList<Rule>();
+		for (Rule r : rules) {
+			if (r.before(results)) {
+				activeRules.add(r);
+			}
+		}
+
 		// check each file in the project
-		List<Violation> violations = new ArrayList<Violation>();
-		check(project, rules, violations);
+		check(project, activeRules, results);
 
 		System.out.println((System.currentTimeMillis() - start) + "ms");
-		return violations;
+		return results;
 	}
 
-	protected void check(final File file, final List<Rule> rules, final List<Violation> violations) {
+	protected void check(final File file, final List<Rule> rules, final SnitchResult results) {
 		// skip if excluded
 		if (isExcluded(file)) {
 			return;
@@ -63,14 +76,47 @@ public class SnitchEngine {
 			File[] files = file.listFiles();
 			if ((files != null) && (files.length > 0)) {
 				for (File f : files) {
-					check(f, rules, violations);
+					check(f, rules, results);
 				}
 			}
 		} else {
-			// check the file with all rules
-			for (Rule rule : rules) {
-				rule.check(file, violations);
+			checkFile(file, rules, results);
+		}
+	}
+
+	protected void checkFile(final File file, final List<Rule> rules, final SnitchResult results) {
+		List<Rule> active = new ArrayList<Rule>();
+
+		// find active rules for this file
+		for (Rule r : rules) {
+			if (r.beforeFile(file, results)) {
+				active.add(r);
 			}
+		}
+
+		// parse and check the file by line
+		if (!active.isEmpty()) {
+			BufferedReader br = null;
+			try {
+				br = new BufferedReader(new FileReader(file));
+				String line = null;
+				int i = 1;
+				while ((line = br.readLine()) != null) {
+					for (Rule r : active) {
+						r.check(file, line, i, results);
+					}
+					i++;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// notify active rules after this file has been checked
+		for (Rule r : active) {
+			r.afterFile(file, results);
 		}
 	}
 

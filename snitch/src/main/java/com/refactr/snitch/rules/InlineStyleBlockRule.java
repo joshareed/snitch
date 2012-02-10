@@ -1,13 +1,16 @@
 package com.refactr.snitch.rules;
 
+import java.io.File;
+
+import com.refactr.snitch.SnitchResult;
+import com.refactr.snitch.Violation;
+
 public class InlineStyleBlockRule extends LineRule {
 
 	@Override
-	protected String checkLine(final String line) {
+	public void check(final File f, final String line, final int i, final SnitchResult results) {
 		if ((line.indexOf("<style") > -1) && (line.indexOf("</style>") < 0)) {
-			return "Avoid use of inline style blocks";
+			results.addViolation(new Violation(f, i, "Avoid use of inline style blocks"));
 		}
-		return null;
 	}
-
 }

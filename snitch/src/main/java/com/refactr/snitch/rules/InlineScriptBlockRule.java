@@ -1,12 +1,16 @@
 package com.refactr.snitch.rules;
 
+import java.io.File;
+
+import com.refactr.snitch.SnitchResult;
+import com.refactr.snitch.Violation;
+
 public class InlineScriptBlockRule extends LineRule {
 
 	@Override
-	protected String checkLine(final String line) {
+	public void check(final File f, final String line, final int i, final SnitchResult results) {
 		if ((line.indexOf("<script") > -1) && (line.indexOf("</script>") < 0)) {
-			return "Avoid use of inline script blocks";
+			results.addViolation(new Violation(f, i, "Avoid use of inline script blocks"));
 		}
-		return null;
 	}
 }
