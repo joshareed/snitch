@@ -5,7 +5,7 @@ import java.io.File;
 import com.refactr.snitch.SnitchResult;
 import com.refactr.snitch.Violation;
 
-public class TabsForIndentationRule extends LineRule {
+public class TabsForIndentationRule extends AbstractRule {
 
 	@Override
 	public void check(final File f, final String line, final int i, final SnitchResult results) {

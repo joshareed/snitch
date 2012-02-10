@@ -4,9 +4,9 @@ import java.io.File;
 
 import com.refactr.snitch.SnitchResult;
 
-public abstract class LineRule implements Rule {
+public abstract class AbstractRule implements Rule {
 
-	public LineRule() {
+	public AbstractRule() {
 		super();
 	}
 

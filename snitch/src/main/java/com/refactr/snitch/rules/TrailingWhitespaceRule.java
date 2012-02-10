@@ -5,7 +5,7 @@ import java.io.File;
 import com.refactr.snitch.SnitchResult;
 import com.refactr.snitch.Violation;
 
-public class TrailingWhitespaceRule extends LineRule {
+public class TrailingWhitespaceRule extends AbstractRule {
 
 	@Override
 	public void check(final File f, final String line, final int i, final SnitchResult results) {
