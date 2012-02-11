@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.Properties;
 import com.refactr.snitch.rules.InlineScriptBlockRule;
 import com.refactr.snitch.rules.InlineStyleBlockRule;
 import com.refactr.snitch.rules.Rule;
-import com.refactr.snitch.rules.TabsForIndentationRule;
+import com.refactr.snitch.rules.SpacesForIndentationRule;
 import com.refactr.snitch.rules.TrailingWhitespaceRule;
 
 public class SnitchEngine {
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws Exception {
 		if (args.length == 0) {
 			System.out.println("Usage: java -jar snitch-all-<version>.jar <dir>");
 			System.exit(1);
@@ -24,9 +25,8 @@ public class SnitchEngine {
 			SnitchEngine engine = new SnitchEngine();
 			SnitchResult results = engine.check(new File(args[0]));
 			// TODO output in various formats
-			for (Violation v : results.getViolations()) {
-				System.out.println(v);
-			}
+			XMLReport report = new XMLReport();
+			report.build(results, new FileWriter("snitch.xml"));
 		}
 	}
 
@@ -128,7 +128,7 @@ public class SnitchEngine {
 	protected List<Rule> discoverRules() {
 		// TODO allow rules to be configured or discovered, perhaps via a .snitch file
 		List<Rule> rules = new ArrayList<Rule>();
-		rules.add(new TabsForIndentationRule());
+		rules.add(new SpacesForIndentationRule());
 		rules.add(new TrailingWhitespaceRule());
 		rules.add(new InlineStyleBlockRule());
 		rules.add(new InlineScriptBlockRule());
