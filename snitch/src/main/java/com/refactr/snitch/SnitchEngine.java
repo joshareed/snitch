@@ -34,6 +34,7 @@ public class SnitchEngine {
 	}
 
 	protected Glob excludes = null;
+	protected Glob includes = null;
 	protected List<Rule> rules = null;
 
 	public SnitchEngine() {
@@ -52,8 +53,7 @@ public class SnitchEngine {
 
 		// initialize our results
 		SnitchResult results = new SnitchResult(project);
-		Properties config = results.getConfig();
-		excludes = new Glob(config.getProperty("excludes", ""));
+		parseConfig(results.getConfig());
 
 		// find active rules for this session
 		List<Rule> activeRules = new ArrayList<Rule>();
@@ -70,8 +70,7 @@ public class SnitchEngine {
 	}
 
 	protected void check(final File file, final List<Rule> rules, final SnitchResult results) {
-		// skip if excluded
-		if (excludes.matches(file)) {
+		if (!shouldCheck(file)) {
 			return;
 		}
 
@@ -83,7 +82,7 @@ public class SnitchEngine {
 					check(f, rules, results);
 				}
 			}
-		} else {
+		} else if (file.isFile()) {
 			checkFile(file, rules, results);
 		}
 	}
@@ -134,5 +133,35 @@ public class SnitchEngine {
 		rules.add(new InlineStyleBlockRule());
 		rules.add(new InlineScriptBlockRule());
 		return rules;
+	}
+
+	protected void parseConfig(final Properties config) {
+		if (config.containsKey("exclude")) {
+			String glob = config.getProperty("exclude");
+			if ((glob != null) && !"".equals(glob.trim())) {
+				excludes = new Glob(glob);
+			}
+		}
+		if (config.containsKey("include")) {
+			String glob = config.getProperty("include");
+			if ((glob != null) && !"".equals(glob.trim())) {
+				includes = new Glob(glob);
+			}
+		}
+	}
+
+	protected boolean shouldCheck(final File file) {
+		if (file.isDirectory()) {
+			return ((excludes == null) || !excludes.matches(file));
+		} else {
+			// check if explicitly included
+			if (includes != null) {
+				return includes.matches(file);
+			}
+			if (excludes != null) {
+				return !excludes.matches(file);
+			}
+			return true;
+		}
 	}
 }

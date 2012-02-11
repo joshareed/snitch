@@ -98,4 +98,9 @@ public class Glob {
 		Matcher m = pattern.matcher(filename);
 		return m.matches();
 	}
+
+	@Override
+	public String toString() {
+		return pattern.toString();
+	}
 }
