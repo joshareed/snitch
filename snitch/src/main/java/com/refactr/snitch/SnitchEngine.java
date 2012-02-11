@@ -15,6 +15,7 @@ import com.refactr.snitch.rules.TabsForIndentationRule;
 import com.refactr.snitch.rules.TrailingWhitespaceRule;
 
 public class SnitchEngine {
+	private static final String EXCLUDES = "{bin,build,target,.git,.gradle}";
 
 	public static void main(final String[] args) {
 		if (args.length == 0) {
@@ -30,6 +31,7 @@ public class SnitchEngine {
 		}
 	}
 
+	protected Glob excludes = null;
 	protected List<Rule> rules = null;
 
 	public SnitchEngine() {
@@ -131,8 +133,9 @@ public class SnitchEngine {
 	}
 
 	protected boolean isExcluded(final File file) {
-		// TODO make this configurable, perhaps via a .snitch file
-		return ("bin".equals(file.getName()) || "build".equals(file.getName()) || "target".equals(file.getName())
-				|| ".gradle".equals(file.getName()) || ".git".equals(file.getName()));
+		if (excludes == null) {
+			excludes = new Glob(EXCLUDES);
+		}
+		return excludes.matches(file);
 	}
 }
