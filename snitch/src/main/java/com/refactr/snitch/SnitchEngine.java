@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import com.refactr.snitch.rules.InlineScriptBlockRule;
 import com.refactr.snitch.rules.InlineStyleBlockRule;
@@ -15,8 +16,6 @@ import com.refactr.snitch.rules.TabsForIndentationRule;
 import com.refactr.snitch.rules.TrailingWhitespaceRule;
 
 public class SnitchEngine {
-	private static final String EXCLUDES = "{bin,build,target,.git,.gradle}";
-
 	public static void main(final String[] args) {
 		if (args.length == 0) {
 			System.out.println("Usage: java -jar snitch-all-<version>.jar <dir>");
@@ -50,6 +49,10 @@ public class SnitchEngine {
 			rules = discoverRules();
 		}
 
+		// get our config
+		Properties config = getConfig(project);
+		excludes = new Glob(config.getProperty("excludes", ""));
+
 		SnitchResult results = new SnitchResult();
 
 		// find active rules for this session
@@ -69,7 +72,7 @@ public class SnitchEngine {
 
 	protected void check(final File file, final List<Rule> rules, final SnitchResult results) {
 		// skip if excluded
-		if (isExcluded(file)) {
+		if (excludes.matches(file)) {
 			return;
 		}
 
@@ -132,10 +135,35 @@ public class SnitchEngine {
 		return rules;
 	}
 
-	protected boolean isExcluded(final File file) {
-		if (excludes == null) {
-			excludes = new Glob(EXCLUDES);
+	protected Properties getConfig(final File project) {
+		Properties config = new Properties();
+
+		// check relative to the project
+		File file = new File(project, ".snitch");
+		if (file.exists() && file.isFile()) {
+			try {
+				config.load(new FileReader(file));
+				return config;
+			} catch (FileNotFoundException e) {
+				// will never happen as we check
+			} catch (IOException e) {
+				System.err.println("Unable to load settings from " + file.getAbsolutePath());
+			}
 		}
-		return excludes.matches(file);
+
+		// check in user home
+		File home = new File(System.getProperty("user.home"));
+		file = new File(home, ".snitch");
+		if (file.exists() && file.isFile()) {
+			try {
+				config.load(new FileReader(file));
+				return config;
+			} catch (FileNotFoundException e) {
+				// will never happen as we check
+			} catch (IOException e) {
+				System.err.println("Unable to load settings from " + file.getAbsolutePath());
+			}
+		}
+		return config;
 	}
 }
