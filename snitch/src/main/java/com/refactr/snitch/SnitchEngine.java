@@ -26,8 +26,8 @@ public class SnitchEngine {
 			SnitchEngine engine = new SnitchEngine();
 			SnitchResult results = engine.check(new File(args[0]).getCanonicalFile());
 			long end = System.currentTimeMillis();
-			System.out.println(String.format("%d files :: %d lines :: %d ms", results.getFiles(), results.getLines(),
-					(end - start)));
+			System.out.println(String.format("%d files :: %d lines :: %d violations :: %d ms", results.getFiles(),
+					results.getLines(), results.getViolations().size(), (end - start)));
 			XMLReport report = new XMLReport();
 			report.build(results, new FileWriter("snitch.xml"));
 		}
