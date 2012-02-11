@@ -1,4 +1,4 @@
-package com.refactr.snitch;
+package com.refactr.snitch.reports;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -19,6 +19,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
+import com.refactr.snitch.SnitchResult;
+import com.refactr.snitch.Violation;
 
 public class XMLReport implements Report {
 

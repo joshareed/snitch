@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.refactr.snitch.reports.XMLReport;
 import com.refactr.snitch.rules.InlineScriptBlockRule;
 import com.refactr.snitch.rules.InlineStyleBlockRule;
 import com.refactr.snitch.rules.Rule;
