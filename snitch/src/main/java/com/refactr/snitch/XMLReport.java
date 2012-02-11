@@ -16,6 +16,10 @@ public class XMLReport implements Report {
 			XMLStreamWriter xml = XMLOutputFactory.newFactory().createXMLStreamWriter(writer);
 			xml.writeStartDocument();
 			xml.writeStartElement("report");
+			xml.writeStartElement("project");
+			xml.writeAttribute("name", results.getProject().getName());
+			xml.writeAttribute("path", results.getProject().getCanonicalPath());
+			xml.writeEndElement();
 			xml.writeStartElement("violations");
 			for (Violation v : results.getViolations()) {
 				xml.writeStartElement("violation");

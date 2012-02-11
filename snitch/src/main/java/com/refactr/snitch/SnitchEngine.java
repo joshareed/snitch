@@ -22,9 +22,12 @@ public class SnitchEngine {
 			System.out.println("Usage: java -jar snitch-all-<version>.jar <dir>");
 			System.exit(1);
 		} else {
+			long start = System.currentTimeMillis();
 			SnitchEngine engine = new SnitchEngine();
-			SnitchResult results = engine.check(new File(args[0]));
-			// TODO output in various formats
+			SnitchResult results = engine.check(new File(args[0]).getCanonicalFile());
+			long end = System.currentTimeMillis();
+			System.out.println(String.format("%d files :: %d lines :: %d ms", results.getFiles(), results.getLines(),
+					(end - start)));
 			XMLReport report = new XMLReport();
 			report.build(results, new FileWriter("snitch.xml"));
 		}
@@ -42,18 +45,15 @@ public class SnitchEngine {
 	}
 
 	public SnitchResult check(final File project) {
-		long start = System.currentTimeMillis();
-
 		// discover rules if not specified
 		if (rules == null) {
 			rules = discoverRules();
 		}
 
-		// get our config
-		Properties config = getConfig(project);
+		// initialize our results
+		SnitchResult results = new SnitchResult(project);
+		Properties config = results.getConfig();
 		excludes = new Glob(config.getProperty("excludes", ""));
-
-		SnitchResult results = new SnitchResult();
 
 		// find active rules for this session
 		List<Rule> activeRules = new ArrayList<Rule>();
@@ -66,7 +66,6 @@ public class SnitchEngine {
 		// check each file in the project
 		check(project, activeRules, results);
 
-		System.out.println((System.currentTimeMillis() - start) + "ms");
 		return results;
 	}
 
@@ -101,6 +100,7 @@ public class SnitchEngine {
 
 		// parse and check the file by line
 		if (!active.isEmpty()) {
+			results.incrementFiles();
 			BufferedReader br = null;
 			try {
 				br = new BufferedReader(new FileReader(file));
@@ -111,6 +111,7 @@ public class SnitchEngine {
 						r.check(file, line, i, results);
 					}
 					i++;
+					results.incrementLines();
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -133,37 +134,5 @@ public class SnitchEngine {
 		rules.add(new InlineStyleBlockRule());
 		rules.add(new InlineScriptBlockRule());
 		return rules;
-	}
-
-	protected Properties getConfig(final File project) {
-		Properties config = new Properties();
-
-		// check relative to the project
-		File file = new File(project, ".snitch");
-		if (file.exists() && file.isFile()) {
-			try {
-				config.load(new FileReader(file));
-				return config;
-			} catch (FileNotFoundException e) {
-				// will never happen as we check
-			} catch (IOException e) {
-				System.err.println("Unable to load settings from " + file.getAbsolutePath());
-			}
-		}
-
-		// check in user home
-		File home = new File(System.getProperty("user.home"));
-		file = new File(home, ".snitch");
-		if (file.exists() && file.isFile()) {
-			try {
-				config.load(new FileReader(file));
-				return config;
-			} catch (FileNotFoundException e) {
-				// will never happen as we check
-			} catch (IOException e) {
-				System.err.println("Unable to load settings from " + file.getAbsolutePath());
-			}
-		}
-		return config;
 	}
 }
