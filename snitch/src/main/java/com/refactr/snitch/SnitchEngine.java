@@ -155,11 +155,11 @@ public class SnitchEngine {
 			return ((excludes == null) || !excludes.matches(file));
 		} else {
 			// check if explicitly included
+			if ((excludes != null) && excludes.matches(file)) {
+				return false;
+			}
 			if (includes != null) {
 				return includes.matches(file);
-			}
-			if (excludes != null) {
-				return !excludes.matches(file);
 			}
 			return true;
 		}

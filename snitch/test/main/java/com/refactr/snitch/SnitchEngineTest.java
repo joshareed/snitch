@@ -34,13 +34,14 @@ public class SnitchEngineTest {
 	}
 
 	@Test
-	public void testShouldCheckGivesPrecedenceToIncludes() {
-		e.excludes = new Glob("{?oo,b*}");
-		e.includes = new Glob("{foo,bar}");
-		assertFalse(e.shouldCheck(new File("boo")));
-		assertTrue(e.shouldCheck(new File("foo")));
-		assertTrue(e.shouldCheck(new File("bar")));
-		assertFalse(e.shouldCheck(new File("baz")));
+	public void testShouldCheckGivesPrecedenceToExcludes() {
+		e.includes = new Glob("{?oo,b*}");
+		e.excludes = new Glob("{foo,bar}");
+		assertTrue(e.shouldCheck(new File("boo")));
+		assertFalse(e.shouldCheck(new File("foo")));
+		assertFalse(e.shouldCheck(new File("bar")));
+		assertTrue(e.shouldCheck(new File("baz")));
+		assertFalse(e.shouldCheck(new File("quux")));
 	}
 
 	@Test
