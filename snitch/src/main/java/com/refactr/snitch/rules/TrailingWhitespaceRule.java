@@ -7,7 +7,7 @@ import com.refactr.snitch.Violation;
 
 public class TrailingWhitespaceRule extends AbstractRule {
 	private static final String MSG = "Line has trailing whitespace";
-	private static final String RULE = TrailingWhitespaceRule.class.getName();
+	private static final String RULE = TrailingWhitespaceRule.class.getSimpleName().replace("Rule", "");
 
 	@Override
 	public void check(final File f, final String line, final int i, final SnitchResult results) {
