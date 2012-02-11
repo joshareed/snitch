@@ -39,6 +39,10 @@ public class XMLReport implements Report {
 			xml.writeStartElement("violations");
 			for (Violation v : results.getViolations()) {
 				xml.writeStartElement("violation");
+				String blame = BlameUtils.getBlame(v, results);
+				if ((blame != null) && !"".equals(blame.trim())) {
+					xml.writeAttribute("blame", blame.trim());
+				}
 				xml.writeAttribute("file", v.getFile().getName());
 				xml.writeAttribute("path", v.getFile().getCanonicalPath());
 				xml.writeAttribute("rule", v.getRule());

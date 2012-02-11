@@ -7,5 +7,5 @@ import com.refactr.snitch.SnitchResult;
 
 public interface Report {
 
-	void build(SnitchResult result, Writer writer) throws IOException;
+	void build(SnitchResult results, Writer writer) throws IOException;
 }
