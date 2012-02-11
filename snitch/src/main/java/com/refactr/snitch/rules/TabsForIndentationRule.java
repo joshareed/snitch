@@ -13,7 +13,7 @@ public class TabsForIndentationRule extends AbstractRule {
 			char c = line.charAt(j);
 			if (c == ' ') {
 				// don't complain about javadoc indentation
-				if ((line.length() >= (j + 1)) && (line.charAt(j + 1) != '*')) {
+				if ((line.length() > (j + 1)) && (line.charAt(j + 1) != '*')) {
 					results.addViolation(new Violation(f, i, "Line uses spaces for indentation"));
 				}
 				return;
