@@ -5,9 +5,9 @@ import java.io.File;
 import com.refactr.snitch.SnitchResult;
 import com.refactr.snitch.Violation;
 
-public class TabsForIndentationRule extends AbstractRule {
+public class SpacesForIndentationRule extends AbstractRule {
 	private static final String MSG = "Line uses spaces for indentation";
-	private static final String RULE = TabsForIndentationRule.class.getName();
+	private static final String RULE = SpacesForIndentationRule.class.getSimpleName().replace("Rule", "");
 
 	@Override
 	public void check(final File f, final String line, final int i, final SnitchResult results) {
