@@ -23,14 +23,23 @@ public class SnitchEngine {
 			System.out.println("Usage: java -jar snitch-all-<version>.jar <dir>");
 			System.exit(1);
 		} else {
-			long start = System.currentTimeMillis();
-			SnitchEngine engine = new SnitchEngine();
-			SnitchResult results = engine.check(new File(args[0]).getCanonicalFile());
-			long end = System.currentTimeMillis();
-			System.out.println(String.format("%d files :: %d lines :: %d violations :: %d ms", results.getFiles(),
-					results.getLines(), results.getViolations().size(), (end - start)));
-			XMLReport report = new XMLReport();
-			report.build(results, new FileWriter("snitch.xml"));
+			File workspace = new File(args[0]);
+			List<SnitchResult> list = new ArrayList<SnitchResult>();
+			for (File p : workspace.listFiles()) {
+				long start = System.currentTimeMillis();
+				SnitchEngine engine = new SnitchEngine();
+				SnitchResult results = engine.check(p);
+				long end = System.currentTimeMillis();
+				System.out.println(String.format("[%s] %d files :: %d lines :: %d violations :: %d ms", p.getName(),
+						results.getFiles(), results.getLines(), results.getViolations().size(), (end - start)));
+				list.add(results);
+			}
+			for (SnitchResult results : list) {
+				System.out.print("Building report for " + results.getProject().getName() + "....");
+				XMLReport report = new XMLReport();
+				report.build(results, new FileWriter(new File(results.getProject(), "snitch.xml")));
+				System.out.println("Done!");
+			}
 		}
 	}
 
