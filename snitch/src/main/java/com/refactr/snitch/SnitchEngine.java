@@ -30,6 +30,7 @@ public class SnitchEngine {
 				SnitchEngine engine = new SnitchEngine();
 				SnitchResult results = engine.check(p);
 				long end = System.currentTimeMillis();
+				results.setTime(end - start);
 				System.out.println(String.format("[%s] %d files :: %d lines :: %d violations :: %d ms", p.getName(),
 						results.getFiles(), results.getLines(), results.getViolations().size(), (end - start)));
 				list.add(results);

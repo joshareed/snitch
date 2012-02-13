@@ -1,7 +1,10 @@
 package com.refactr.snitch.reports;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.List;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -21,31 +24,38 @@ public class XMLReport implements Report {
 
 	@Override
 	public void build(final SnitchResult results, final Writer writer) throws IOException {
+		int strip = results.getProject().getCanonicalPath().length() + 1;
 		XMLStreamWriter xml = null;
 		try {
 			xml = XMLOutputFactory.newFactory().createXMLStreamWriter(writer);
 			xml.writeStartDocument();
 			xml.writeStartElement("report");
-			xml.writeStartElement("project");
+			xml.writeEmptyElement("project");
 			xml.writeAttribute("name", results.getProject().getName());
 			xml.writeAttribute("path", results.getProject().getCanonicalPath());
-			xml.writeEndElement();
 			xml.writeStartElement("violations");
+			List<Violation> violations = results.getViolations();
+			Collections.sort(violations);
+			File current = null;
 			for (Violation v : results.getViolations()) {
-				xml.writeStartElement("violation");
+				if (current != v.getFile()) {
+					if (current != null) {
+						xml.writeEndElement();
+					}
+					current = v.getFile();
+					xml.writeStartElement("file");
+					xml.writeAttribute("name", v.getFile().getName());
+					xml.writeAttribute("path", v.getFile().getCanonicalPath().substring(strip));
+				}
+				xml.writeEmptyElement("violation");
 				String blame = blameService.getBlame(v, results);
 				if ((blame != null) && !"".equals(blame.trim())) {
 					xml.writeAttribute("blame", blame.trim());
 				}
-				xml.writeAttribute("file", v.getFile().getName());
-				xml.writeAttribute("path", v.getFile().getCanonicalPath());
 				xml.writeAttribute("rule", v.getRule());
 				xml.writeAttribute("line", Integer.toString(v.getLine()));
 				xml.writeAttribute("message", v.getMessage());
-				xml.writeEndElement();
 			}
-			xml.writeEndElement();
-			xml.writeEndElement();
 			xml.writeEndDocument();
 			xml.flush();
 		} catch (XMLStreamException e) {

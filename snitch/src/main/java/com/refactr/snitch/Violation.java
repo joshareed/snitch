@@ -2,7 +2,7 @@ package com.refactr.snitch;
 
 import java.io.File;
 
-public class Violation {
+public class Violation implements Comparable<Violation> {
 	private final File file;
 	private final int line;
 	private final String message;
@@ -13,6 +13,22 @@ public class Violation {
 		this.line = line;
 		this.rule = rule;
 		this.message = message;
+	}
+
+	@Override
+	public int compareTo(final Violation o) {
+		int v = file.compareTo(o.getFile());
+		if (v == 0) {
+			if (line < o.getLine()) {
+				return -1;
+			} else if (line > o.getLine()) {
+				return 1;
+			} else {
+				return rule.compareTo(o.getRule());
+			}
+		} else {
+			return v;
+		}
 	}
 
 	public File getFile() {

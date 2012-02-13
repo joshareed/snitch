@@ -13,6 +13,7 @@ public class SnitchResult {
 	protected int files = 0;
 	protected int lines = 0;
 	protected final File project;
+	protected long time = 0;
 	protected final List<Violation> violations;
 
 	public SnitchResult(final File project) {
@@ -40,6 +41,10 @@ public class SnitchResult {
 
 	public File getProject() {
 		return project;
+	}
+
+	public long getTime() {
+		return time;
 	}
 
 	public List<Violation> getViolations() {
@@ -90,5 +95,9 @@ public class SnitchResult {
 
 	public void setLines(final int lines) {
 		this.lines = lines;
+	}
+
+	public void setTime(final long time) {
+		this.time = time;
 	}
 }
