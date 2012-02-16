@@ -5,9 +5,9 @@ import java.io.File;
 import com.refactr.snitch.SnitchResult;
 import com.refactr.snitch.Violation;
 
-public class InlineStyleBlockRule extends AbstractRule {
-	private static final String MSG = "Avoid use of inline style blocks";
-	private static final String RULE = InlineStyleBlockRule.class.getSimpleName().replace("Rule", "");
+public class EmbeddedStyleBlockRule extends AbstractRule {
+	private static final String MSG = "Avoid use of embedded style blocks";
+	private static final String RULE = EmbeddedStyleBlockRule.class.getSimpleName().replace("Rule", "");
 
 	@Override
 	public void check(final File f, final String line, final int i, final SnitchResult results) {
