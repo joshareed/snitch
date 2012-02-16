@@ -13,6 +13,8 @@ import java.util.Properties;
 import com.refactr.snitch.reports.XMLReport;
 import com.refactr.snitch.rules.EmbeddedScriptBlockRule;
 import com.refactr.snitch.rules.EmbeddedStyleBlockRule;
+import com.refactr.snitch.rules.InlineStyleRule;
+import com.refactr.snitch.rules.JavascriptEventRule;
 import com.refactr.snitch.rules.Rule;
 import com.refactr.snitch.rules.SpacesForIndentationRule;
 import com.refactr.snitch.rules.TrailingWhitespaceRule;
@@ -138,6 +140,8 @@ public class SnitchEngine {
 		rules.add(new TrailingWhitespaceRule());
 		rules.add(new EmbeddedStyleBlockRule());
 		rules.add(new EmbeddedScriptBlockRule());
+		rules.add(new InlineStyleRule());
+		rules.add(new JavascriptEventRule());
 		return rules;
 	}
 
