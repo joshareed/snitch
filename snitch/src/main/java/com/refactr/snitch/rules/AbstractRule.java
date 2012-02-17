@@ -37,4 +37,14 @@ public abstract class AbstractRule implements Rule {
 	public void check(final File file, final String line, final int num, final SnitchResult results) {
 		// do nothing
 	}
+
+	protected boolean is(final File f, final String... extensions) {
+		String name = f.getName().toLowerCase();
+		for (String e : extensions) {
+			if (name.endsWith(e)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
