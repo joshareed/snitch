@@ -25,7 +25,7 @@ public class SnitchEngine {
 			System.out.println("Usage: java -jar snitch-all-<version>.jar <dir>");
 			System.exit(1);
 		} else {
-			File project = new File(args[0]);
+			File project = new File(args[0]).getCanonicalFile();
 			long start = System.currentTimeMillis();
 			SnitchEngine engine = new SnitchEngine();
 			SnitchResult results = engine.check(project);
