@@ -77,7 +77,7 @@ public abstract class AbstractCSSRule extends AbstractRule {
 					}
 					buffer = new StringBuilder();
 
-					handleCSS(ruleLine, selectors, properties, results);
+					handleCSS(file, ruleLine, selectors, properties, results);
 				}
 				break;
 			default:
@@ -90,6 +90,6 @@ public abstract class AbstractCSSRule extends AbstractRule {
 		last = '\n';
 	}
 
-	protected abstract void handleCSS(final int line, final List<String> selectors, final List<String> properties,
-			final SnitchResult results);
+	protected abstract void handleCSS(final File file, final int line, final List<String> selectors,
+			final List<String> properties, final SnitchResult results);
 }
