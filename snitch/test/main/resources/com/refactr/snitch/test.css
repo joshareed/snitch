@@ -1,0 +1,27 @@
+#oneline { width: 100px }
+
+
+
+.one, .two, .three, .four, .five {
+	left: 0;
+}
+
+.multiple,
+.lines
+{
+	/* top: 0;
+	 * /
+	*/
+	right: 0;
+}
+
+/*
+.comment {
+	background: red;
+}
+*/
+
+.foo /*, .bar */ {
+	border: 1px solid black; background: red;
+	width: 50%
+}
