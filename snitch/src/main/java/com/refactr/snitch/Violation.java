@@ -7,12 +7,18 @@ public class Violation implements Comparable<Violation> {
 	private final int line;
 	private final String message;
 	private final String rule;
+	private String blame = null;
 
 	public Violation(final File file, final int line, final String rule, final String message) {
+		this(file, line, rule, message, null);
+	}
+
+	public Violation(final File file, final int line, final String rule, final String message, final String blame) {
 		this.file = file;
 		this.line = line;
 		this.rule = rule;
 		this.message = message;
+		this.blame = blame;
 	}
 
 	@Override
@@ -31,6 +37,10 @@ public class Violation implements Comparable<Violation> {
 		}
 	}
 
+	public String getBlame() {
+		return blame;
+	}
+
 	public File getFile() {
 		return file;
 	}
@@ -45,6 +55,10 @@ public class Violation implements Comparable<Violation> {
 
 	public String getRule() {
 		return rule;
+	}
+
+	public void setBlame(final String blame) {
+		this.blame = blame;
 	}
 
 	@Override

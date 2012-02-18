@@ -16,11 +16,6 @@ import com.refactr.snitch.SnitchResult;
 import com.refactr.snitch.Violation;
 
 public class XMLReport implements Report {
-	protected BlameService blameService;
-
-	public XMLReport() {
-		blameService = new BlameService();
-	}
 
 	@Override
 	public void build(final SnitchResult results, final Writer writer) throws IOException {
@@ -56,7 +51,7 @@ public class XMLReport implements Report {
 					xml.writeAttribute("path", v.getFile().getCanonicalPath().substring(strip));
 				}
 				xml.writeEmptyElement("violation");
-				String blame = blameService.getBlame(v, results);
+				String blame = v.getBlame();
 				if ((blame != null) && !"".equals(blame.trim())) {
 					xml.writeAttribute("blame", blame.trim());
 				}

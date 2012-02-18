@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.refactr.snitch.reports.XMLReport;
@@ -39,6 +40,11 @@ public class SnitchEngine {
 			XMLReport xml = new XMLReport();
 			xml.build(results, new FileWriter(new File(results.getProject(), "snitch.xml")));
 			System.out.println("Done!");
+
+			Map<String, Integer> users = results.getUsers();
+			for (String user : users.keySet()) {
+				System.out.println(user + ": " + users.get(user));
+			}
 		}
 	}
 
@@ -108,7 +114,6 @@ public class SnitchEngine {
 
 		// parse and check the file by line
 		if (!active.isEmpty()) {
-			results.incrementFiles();
 			BufferedReader br = null;
 			try {
 				br = new BufferedReader(new FileReader(file));
@@ -118,8 +123,8 @@ public class SnitchEngine {
 					for (Rule r : active) {
 						r.check(file, line, i, results);
 					}
+					results.countLine(file, i);
 					i++;
-					results.incrementLines();
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

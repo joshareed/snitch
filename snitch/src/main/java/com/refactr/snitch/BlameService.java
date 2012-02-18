@@ -1,4 +1,4 @@
-package com.refactr.snitch.reports;
+package com.refactr.snitch;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.refactr.snitch.SnitchResult;
-import com.refactr.snitch.Violation;
 
 public class BlameService {
 
@@ -18,10 +16,7 @@ public class BlameService {
 		blameCache = new HashMap<File, Map<Integer, String>>();
 	}
 
-	public String getBlame(final Violation v, final SnitchResult results) {
-		File file = v.getFile();
-		int line = v.getLine();
-
+	public String getBlame(final File file, final int line, final SnitchResult results) {
 		// build blame for the file
 		if (!blameCache.containsKey(file)) {
 			File project = results.getProject();
@@ -38,6 +33,10 @@ public class BlameService {
 		} else {
 			return null;
 		}
+	}
+
+	public String getBlame(final Violation v, final SnitchResult results) {
+		return getBlame(v.getFile(), v.getLine(), results);
 	}
 
 	protected void gitBlameForFile(final File file, final File repo, final File working) {

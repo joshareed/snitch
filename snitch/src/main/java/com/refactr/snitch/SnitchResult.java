@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class SnitchResult {
@@ -15,16 +17,46 @@ public class SnitchResult {
 	protected final File project;
 	protected long time = 0;
 	protected final List<Violation> violations;
+	protected final BlameService blameService;
+	protected final Map<String, Integer> users;
+	protected File lastFile = null;
 
 	public SnitchResult(final File project) {
 		this.project = project;
 		violations = new ArrayList<Violation>();
 		config = new Properties();
+		blameService = new BlameService();
+		users = new HashMap<String, Integer>();
 		initConfig();
 	}
 
 	public void addViolation(final Violation v) {
+		v.setBlame(getBlame(v.getFile(), v.getLine()));
 		violations.add(v);
+	}
+
+	public void countLine(final File file, final int line) {
+		// track stats about files, lines, and users
+		if (file != lastFile) {
+			files++;
+			lastFile = file;
+		}
+		lines++;
+
+		// get user blame
+		String user = getBlame(file, line);
+		if ((user != null) && !"".equals(user)) {
+			if (users.containsKey(user)) {
+				int count = users.get(user);
+				users.put(user, count + 1);
+			} else {
+				users.put(user, 1);
+			}
+		}
+	}
+
+	public String getBlame(final File file, final int line) {
+		return blameService.getBlame(file, line, this);
 	}
 
 	public Properties getConfig() {
@@ -47,16 +79,12 @@ public class SnitchResult {
 		return time;
 	}
 
+	public Map<String, Integer> getUsers() {
+		return users;
+	}
+
 	public List<Violation> getViolations() {
 		return violations;
-	}
-
-	public void incrementFiles() {
-		this.files++;
-	}
-
-	public void incrementLines() {
-		this.lines++;
 	}
 
 	protected Properties initConfig() {
