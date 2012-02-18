@@ -23,7 +23,7 @@ public class SnitchEngineTest {
 	@Test
 	public void testDiscoverRules() {
 		List<Rule> rules = e.discoverRules();
-		assertEquals(4, rules.size());
+		assertEquals(7, rules.size());
 	}
 
 	@Test
