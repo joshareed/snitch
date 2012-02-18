@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.refactr.snitch.SnitchResult.UserStat;
 import com.refactr.snitch.reports.XMLReport;
 import com.refactr.snitch.rules.CSSPropertyOrderRule;
 import com.refactr.snitch.rules.EmbeddedScriptBlockRule;
@@ -41,9 +42,10 @@ public class SnitchEngine {
 			xml.build(results, new FileWriter(new File(results.getProject(), "snitch.xml")));
 			System.out.println("Done!");
 
-			Map<String, Integer> users = results.getUsers();
+			Map<String, UserStat> users = results.getUsers();
 			for (String user : users.keySet()) {
-				System.out.println(user + ": " + users.get(user));
+				UserStat stats = users.get(user);
+				System.out.println(user + ": " + stats.violations + "/" + stats.lines + " [" + stats.getScore() + "]");
 			}
 		}
 	}

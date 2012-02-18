@@ -11,6 +11,19 @@ import java.util.Map;
 import java.util.Properties;
 
 public class SnitchResult {
+	class UserStat {
+		public int lines = 0;
+		public int violations = 0;
+
+		public int getScore() {
+			if ((lines == 0) || (violations == 0)) {
+				return 0;
+			} else {
+				return (int) (((double) violations / (double) lines) * 100);
+			}
+		}
+	}
+
 	protected final Properties config;
 	protected int files = 0;
 	protected int lines = 0;
@@ -18,7 +31,7 @@ public class SnitchResult {
 	protected long time = 0;
 	protected final List<Violation> violations;
 	protected final BlameService blameService;
-	protected final Map<String, Integer> users;
+	protected final Map<String, UserStat> users;
 	protected File lastFile = null;
 
 	public SnitchResult(final File project) {
@@ -26,12 +39,24 @@ public class SnitchResult {
 		violations = new ArrayList<Violation>();
 		config = new Properties();
 		blameService = new BlameService();
-		users = new HashMap<String, Integer>();
+		users = new HashMap<String, UserStat>();
 		initConfig();
 	}
 
 	public void addViolation(final Violation v) {
-		v.setBlame(getBlame(v.getFile(), v.getLine()));
+		String blame = getBlame(v.getFile(), v.getLine());
+		if ((blame != null) && !"".equals(blame)) {
+			v.setBlame(blame);
+			if (users.containsKey(blame)) {
+				UserStat stats = users.get(blame);
+				stats.violations++;
+			} else {
+				UserStat stats = new UserStat();
+				stats.lines++;
+				stats.violations++;
+				users.put(blame, stats);
+			}
+		}
 		violations.add(v);
 	}
 
@@ -47,10 +72,12 @@ public class SnitchResult {
 		String user = getBlame(file, line);
 		if ((user != null) && !"".equals(user)) {
 			if (users.containsKey(user)) {
-				int count = users.get(user);
-				users.put(user, count + 1);
+				UserStat stats = users.get(user);
+				stats.lines++;
 			} else {
-				users.put(user, 1);
+				UserStat stats = new UserStat();
+				stats.lines++;
+				users.put(user, stats);
 			}
 		}
 	}
@@ -79,7 +106,7 @@ public class SnitchResult {
 		return time;
 	}
 
-	public Map<String, Integer> getUsers() {
+	public Map<String, UserStat> getUsers() {
 		return users;
 	}
 
