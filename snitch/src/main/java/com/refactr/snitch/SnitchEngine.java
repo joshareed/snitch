@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.refactr.snitch.reports.XMLReport;
+import com.refactr.snitch.rules.CSSPropertyOrderRule;
 import com.refactr.snitch.rules.EmbeddedScriptBlockRule;
 import com.refactr.snitch.rules.EmbeddedStyleBlockRule;
 import com.refactr.snitch.rules.InlineStyleRule;
@@ -142,6 +143,7 @@ public class SnitchEngine {
 		rules.add(new EmbeddedScriptBlockRule());
 		rules.add(new InlineStyleRule());
 		rules.add(new JavascriptEventRule());
+		rules.add(new CSSPropertyOrderRule());
 		return rules;
 	}
 
