@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -45,19 +43,6 @@ public class XMLReport implements Report {
 			List<Violation> violations = results.getViolations();
 			Collections.sort(violations);
 
-			// build our rule map
-			Map<String, String> rules = new HashMap<String, String>();
-			for (Violation v : violations) {
-				rules.put(v.getRule(), v.getMessage());
-			}
-			xml.writeStartElement("rules");
-			for (String rule : rules.keySet()) {
-				xml.writeEmptyElement("rule");
-				xml.writeAttribute("id", rule);
-				xml.writeAttribute("message", rules.get(rule));
-			}
-			xml.writeEndElement();
-
 			xml.writeStartElement("violations");
 			File current = null;
 			for (Violation v : violations) {
@@ -77,6 +62,7 @@ public class XMLReport implements Report {
 				}
 				xml.writeAttribute("rule", v.getRule());
 				xml.writeAttribute("line", Integer.toString(v.getLine()));
+				xml.writeAttribute("message", v.getMessage());
 			}
 			xml.writeEndDocument();
 			xml.flush();
