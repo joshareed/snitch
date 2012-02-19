@@ -8,7 +8,8 @@ class AdminController {
 		def settings = configService.settings
 		[
 			workspace: settings.workspace,
-			users: settings.findAll { it.key.startsWith('user') }
+			users: settings.findAll { it.key.startsWith('user') },
+			projects: settings.findAll { it.key.startsWith('project') }
 		]
 	}
 
@@ -18,6 +19,7 @@ class AdminController {
 		save.remove('action')
 		configService.saveSettings(save)
 		flash.message = "Settings saved"
+		SnitchJob.triggerNow()
 		redirect action: "configure"
 	}
 }

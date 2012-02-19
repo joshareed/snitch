@@ -33,7 +33,11 @@ class ConfigService {
 		save.store(settingsFile.newWriter(), null)
 	}
 
-	public getEmail(name) {
-		return settings["user-$name".toString()]
+	public getEmailFor(name) {
+		settings["user-$name".toString()]
+	}
+
+	public getRepoFor(name) {
+		settings["project-$name".toString()]
 	}
 }

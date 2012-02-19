@@ -12,6 +12,10 @@ class DataService {
 		def projects = [:]
 		def users = [:]
 
+		// to determine if config settings exist for users and projects
+		def settings = configService.settings
+		def add = [:]
+
 		list.each { results ->
 			// build our project structure
 			def project = buildProjectStructure(results)
@@ -32,10 +36,27 @@ class DataService {
 				user.stats.violations = user.stats.violations + stats.violations
 				user.stats.projects = user.projects.size()
 			}
+
+			// add config settings for projects
+			String key = "project-${project.name}".toString()
+			if (!settings.containsKey(key)) {
+				add[key] = ''
+			}
 		}
 
 		// summarize users
-		users.each { name, user -> user.stats.score = score(user.stats) }
+		users.each { name, user ->
+			user.stats.score = score(user.stats)
+			String key = "user-${name}".toString()
+			if (!settings.containsKey(key)) {
+				add[key] = ''
+			}
+		}
+
+		// add any config settings
+		if (add) {
+			configService.saveSettings(add)
+		}
 
 		// build overview
 		def overview = [:]
