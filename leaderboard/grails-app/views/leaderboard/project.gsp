@@ -27,7 +27,7 @@
 			<div class="pull-right stats" style="font-size: 150%">
 				${stats.score}<i class="icon-star"></i>
 			</div>
-			<h1>${name}</h1>
+			<h1><g:link controller="leaderboard" action="overview">Refactr</g:link> / ${name}</h1>
 		</div>
 		<div class="row">
 			<div class="span5">
@@ -75,8 +75,10 @@
 		<script type="text/javascript" charset="utf-8">
 			var usersChart;
 			$(document).ready(function() {
+				// enable sorting
 				$(".users").tablesorter({ sortList: [[1,0]] });
-				$(".violations table").tablesorter({ sortList: [[0,0], [1,0]] });
+				$(".violations table").tablesorter();
+
 				usersChart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'users',

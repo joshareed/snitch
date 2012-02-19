@@ -69,9 +69,8 @@
 		<script type="text/javascript" charset="utf-8">
 			var userChart, projectChart;
 			$(document).ready(function() {
-				$(".table").tablesorter({
-					sortList: [[1,0]]
-				});
+				// add sorting
+				$(".table").tablesorter({ sortList: [[1,0]] });
 
 				// user chart
 				(function() {

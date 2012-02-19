@@ -10,7 +10,9 @@
 	<tbody>
 		<g:each in="${violations}" var="v">
 			<tr>
-				<td>${v.file}</td>
+				<td>
+					<g:repoLink project="${name}" path="${v.path}">${v.file}</g:repoLink>
+				</td>
 				<td>${v.line}</td>
 				<td>${v.blame}</td>
 				<td>${v.message}</td>
