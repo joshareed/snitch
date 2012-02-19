@@ -24,9 +24,9 @@
 				<g:if test="${users}">
 					<g:each in="${users}" var="u">
 						<div class="control-group">
-							<label for="user-${u.key}">${u.key}</label>
+							<label for="${u.key}">${u.key - 'user-'}</label>
 							<div class="controls">
-								<g:textField name="user-${u.key}" value="${u.value}" class="span6"/>
+								<g:textField name="${u.key}" value="${u.value}" class="span6"/>
 							</div>
 						</div>
 					</g:each>

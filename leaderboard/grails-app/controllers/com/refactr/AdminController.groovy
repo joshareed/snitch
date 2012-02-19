@@ -13,7 +13,10 @@ class AdminController {
 	}
 
 	def save() {
-		configService.saveSettings(params ?: [:])
+		def save = params ?: [:]
+		save.remove('controller')
+		save.remove('action')
+		configService.saveSettings(save)
 		flash.message = "Settings saved"
 		redirect action: "configure"
 	}
