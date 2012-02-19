@@ -39,8 +39,8 @@ class DataService {
 
 		// build overview
 		def overview = [:]
-		overview.users = users.collect { name, user -> [name: name] + user.stats }
-		overview.projects = projects.collect { name, project -> [name: name] + project.stats }
+		overview.users = users.collect { name, user -> [name: name] + user.stats }.sort { it.score }
+		overview.projects = projects.collect { name, project -> [name: name] + project.stats }.sort { it.score }
 
 		// store
 		_overview = overview

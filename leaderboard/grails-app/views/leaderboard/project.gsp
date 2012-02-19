@@ -7,6 +7,7 @@
 		.violations {
 			height: 400px;
 			overflow: scroll;
+			margin-bottom: 100px;
 		}
 		.stats {
 			margin-top: 10px;
