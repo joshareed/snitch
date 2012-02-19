@@ -12,6 +12,9 @@
 			.table tbody td {
 				padding-top: 17px;
 			}
+			.chart {
+				margin-bottom: 30px;
+			}
 		</style>
 	</head>
 	<body>

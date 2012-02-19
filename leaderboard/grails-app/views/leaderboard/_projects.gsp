@@ -3,9 +3,9 @@
 		<tr>
 			<th>Name</th>
 			<th>Score</th>
+			<th>Files</th>
 			<th>Violations</th>
 			<th>LOC</th>
-			<th>Files</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -13,9 +13,9 @@
 			<tr>
 				<td>${p.name}</td>
 				<td>${p.stats.s}</td>
+				<td>${p.stats.f}</td>
 				<td>${p.stats.v}</td>
 				<td>${p.stats.l}</td>
-				<td>${p.stats.f}</td>
 			</tr>
 		</g:each>
 	</tbody>
