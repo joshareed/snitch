@@ -7,46 +7,46 @@ grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    checksums true // Whether to verify checksums on resolve
+	// inherit Grails' default dependencies
+	inherits("global") {
+		// uncomment to disable ehcache
+		// excludes 'ehcache'
+	}
+	log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+	checksums true // Whether to verify checksums on resolve
 
-    repositories {
-        inherits true // Whether to inherit repository definitions from plugins
-        grailsPlugins()
-        grailsHome()
-        grailsCentral()
-        mavenCentral()
+	repositories {
+		inherits true // Whether to inherit repository definitions from plugins
+		grailsPlugins()
+		grailsHome()
+		grailsCentral()
+		mavenCentral()
 
-        // uncomment these to enable remote dependency resolution from public Maven repositories
-        //mavenCentral()
-        //mavenLocal()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
-    }
-    dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
+		// uncomment these to enable remote dependency resolution from public Maven repositories
+		//mavenCentral()
+		//mavenLocal()
+		//mavenRepo "http://snapshots.repository.codehaus.org"
+		//mavenRepo "http://repository.codehaus.org"
+		//mavenRepo "http://download.java.net/maven/2/"
+		//mavenRepo "http://repository.jboss.com/maven2/"
+	}
+	dependencies {
+		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
-        // runtime 'mysql:mysql-connector-java:5.1.16'
+		// runtime 'mysql:mysql-connector-java:5.1.16'
 		compile ":snitch-all:0.0.1-SNAPSHOT"
-    }
+	}
 
-    plugins {
+	plugins {
 		runtime ":hibernate:$grailsVersion"
 
-        runtime ":jquery:1.7.1"
-        runtime ":resources:1.1.5"
+		runtime ":jquery:1.7.1"
+		runtime ":resources:1.1.5"
 		runtime ":twitter-bootstrap:2.0.0.16"
 		runtime ":fields:1.0.1"
 
 		compile ":quartz:0.4.2"
 
-        build ":tomcat:$grailsVersion"
-    }
+		build ":tomcat:$grailsVersion"
+	}
 }
