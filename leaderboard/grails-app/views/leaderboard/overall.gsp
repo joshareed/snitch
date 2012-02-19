@@ -12,6 +12,21 @@
 			.table tbody td {
 				padding-top: 17px;
 			}
+			.table th:hover {
+				cursor: pointer;
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+			.table th.headerSortUp, .table th.headerSortDown {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+			.table th.headerSortUp:after {
+				content: '▲';
+				float: right;
+			}
+			.table th.headerSortDown:after {
+				content: '▼';
+				float: right;
+			}
 			.chart {
 				margin-bottom: 30px;
 			}
@@ -21,7 +36,7 @@
 		<div class="row">
 			<div class="span5">
 				<div class="page-header">
-					<h2>Users</h2>
+					<h2>Committers</h2>
 				</div>
 				<div class="chart" id="users"></div>
 				<g:render template="users" model="${users}"/>
@@ -35,11 +50,11 @@
 			</div>
 		</div>
 		<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$(".table").tablesorter({
-				sortList: [[1,0]]
+			$(document).ready(function() {
+				$(".table").tablesorter({
+					sortList: [[1,0]]
+				});
 			});
-		});
 		</script>
 	</body>
 </html>
