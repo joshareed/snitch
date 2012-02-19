@@ -14,9 +14,9 @@
 					<g:avatar user="${u}" class="avatar"/>
 					${u.name}
 				</td>
-				<td>${u.stats.s}</td>
-				<td>${u.stats.v}</td>
-				<td>${u.stats.l}</td>
+				<td>${u.score}</td>
+				<td>${u.violations}</td>
+				<td>${u.lines}</td>
 			</tr>
 		</g:each>
 	</tbody>
@@ -25,7 +25,7 @@
 var usersChart;
 $(document).ready(function() {
 	var categories = <%= users.collect { "'${it.name}'" } %>;
-	var data = <%= users.collect { it?.stats?.s ?: 0 } %>;
+	var data = <%= users.collect { it?.score ?: 0 } %>;
 
 	usersChart = new Highcharts.Chart({
 		chart: {

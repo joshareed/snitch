@@ -15,6 +15,7 @@
         <r:layoutResources />
 	</head>
 	<body>
+		<g:link controller="admin" action="configure" class="admin"><i class="icon-list-alt"></i>Admin</g:link>
 		<div class="container">
 			<g:layoutBody/>
 		</div>

@@ -1,7 +1,7 @@
 class UrlMappings {
 
 	static mappings = {
-		"/overall"(controller: 'leaderboard', action: 'overall')
+		"/overview"(controller: 'leaderboard', action: 'overview')
 
 		"/$controller/$action?/$id?"{
 			constraints {
@@ -9,7 +9,7 @@ class UrlMappings {
 			}
 		}
 
-		"/"(controller: 'leaderboard', action: 'overall')
+		"/"(controller: 'leaderboard', action: 'overview')
 		"500"(view:'/error')
 	}
 }

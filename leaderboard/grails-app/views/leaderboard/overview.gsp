@@ -3,34 +3,6 @@
 	<head>
 		<title>Overall</title>
 		<meta name="layout" content="main">
-		<style type="text/css" media="screen">
-			.avatar {
-				float: left;
-				padding-right: 10px;
-				margin-top: -7px;
-			}
-			.table tbody td {
-				padding-top: 17px;
-			}
-			.table th:hover {
-				cursor: pointer;
-				background-color: rgba(0, 0, 0, 0.2);
-			}
-			.table th.headerSortUp, .table th.headerSortDown {
-				background-color: rgba(0, 0, 0, 0.2);
-			}
-			.table th.headerSortUp:after {
-				content: '▲';
-				float: right;
-			}
-			.table th.headerSortDown:after {
-				content: '▼';
-				float: right;
-			}
-			.chart {
-				margin-bottom: 30px;
-			}
-		</style>
 	</head>
 	<body>
 		<div class="row">

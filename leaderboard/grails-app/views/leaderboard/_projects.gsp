@@ -12,10 +12,10 @@
 		<g:each in="${projects}" var="p">
 			<tr>
 				<td>${p.name}</td>
-				<td>${p.stats.s}</td>
-				<td>${p.stats.f}</td>
-				<td>${p.stats.v}</td>
-				<td>${p.stats.l}</td>
+				<td>${p.score}</td>
+				<td>${p.files}</td>
+				<td>${p.violations}</td>
+				<td>${p.lines}</td>
 			</tr>
 		</g:each>
 	</tbody>
@@ -24,7 +24,7 @@
 var projectsChart;
 $(document).ready(function() {
 	var categories = <%= projects.collect { "'${it.name}'" } %>;
-	var data = <%= projects.collect { it?.stats?.s ?: 0 } %>;
+	var data = <%= projects.collect { it?.score ?: 0 } %>;
 
 	projectsChart = new Highcharts.Chart({
 		chart: {

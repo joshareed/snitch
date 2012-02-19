@@ -1,11 +1,12 @@
 package com.refactr
 
 class LeaderboardTagLib {
+	def configService
 
 	def avatar = { attrs ->
 		def user = attrs?.user
 		if (user) {
-			def email = (user.email ?: user.name)?.trim()?.toLowerCase()
+			def email = (configService.getEmail(user.name) ?: user.name) ?.trim()?.toLowerCase()
 			def size = attrs?.size ?: '30'
 			if (email) {
 				def hash = email.encodeAsMD5()

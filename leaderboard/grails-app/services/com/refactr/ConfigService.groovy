@@ -2,14 +2,21 @@ package com.refactr
 
 class ConfigService {
 	static transactional = false
-
 	private _settings
 
-	private getSettingsFile() {
-		return new File("snitch.properties")
+	public getDataDir() {
+		File dir = new File(".snitch")
+		if (!dir.exists()) {
+			dir.mkdirs()
+		}
+		return dir
 	}
 
-	def getSettings() {
+	private getSettingsFile() {
+		return new File(dataDir, "config")
+	}
+
+	public getSettings() {
 		if (!_settings) {
 			_settings = new Properties()
 			def file = settingsFile
@@ -20,9 +27,13 @@ class ConfigService {
 		_settings
 	}
 
-	def saveSettings(Map map) {
+	public saveSettings(Map map) {
 		def save = settings
 		save.putAll(map)
 		save.store(settingsFile.newWriter(), null)
+	}
+
+	public getEmail(name) {
+		return settings["user-$name".toString()]
 	}
 }
