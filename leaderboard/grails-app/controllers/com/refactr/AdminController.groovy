@@ -4,7 +4,7 @@ class AdminController {
 	static defaultAction = "configure"
 	def configService
 
-    def configure() {
+	def configure() {
 		def settings = configService.settings
 		[
 			workspace: settings.workspace,

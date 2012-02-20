@@ -12,13 +12,13 @@
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<r:require modules="bootstrap, application"/>
 		<g:layoutHead/>
-        <r:layoutResources />
+		<r:layoutResources />
 	</head>
 	<body>
 		<g:link controller="admin" action="configure" class="admin"><i class="icon-list-alt"></i>Admin</g:link>
 		<div class="container">
 			<g:layoutBody/>
 		</div>
-        <r:layoutResources />
+		<r:layoutResources />
 	</body>
 </html>

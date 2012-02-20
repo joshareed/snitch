@@ -6,12 +6,12 @@ import com.refactr.snitch.*
 
 class SnitchJob {
 	static triggers = {
-		simple name: 'snitchJobTrigger', startDelay: (10 * 1000), repeatInterval: (15 * 60 * 1000)
+		simple name: 'snitchJobTrigger', startDelay: (10 * 1000), repeatInterval: (30 * 60 * 1000)
 	}
 
 	def configService, dataService
 
-    def execute() {
+	def execute() {
 		// get our workspace
 		def path = configService?.settings?.workspace
 		if (!path) {
@@ -27,7 +27,10 @@ class SnitchJob {
 
 		// check each project
 		def results = []
-		workspace.eachDir { d -> results << new SnitchEngine().check(d) }
+		workspace.eachDir { d ->
+			log.info "Checking ${d.absolutePath} for snitch violations..."
+			results << new SnitchEngine().check(d)
+		}
 		dataService.addResults(results)
-    }
+	}
 }

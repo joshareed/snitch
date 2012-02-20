@@ -7,27 +7,27 @@
 	padding-top: 17px;
 }
 .table th:hover {
-	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.2);
+	cursor: pointer;
 }
 .table th.headerSortUp, .table th.headerSortDown {
 	background-color: rgba(0, 0, 0, 0.2);
 }
 .table th.headerSortUp:after {
-	content: '▲';
 	float: right;
+	content: '▲';
 }
 .table th.headerSortDown:after {
-	content: '▼';
 	float: right;
+	content: '▼';
 }
 .chart {
 	margin-bottom: 30px;
 }
 .admin {
 	float: right;
-	color: #999;
 	margin: 10px;
+	color: #999;
 }
 .admin i {
 	margin-right: 5px;

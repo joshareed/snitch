@@ -1,17 +1,12 @@
 package com.refactr
 
-
-
 import grails.test.mixin.*
 import org.junit.*
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
 @TestFor(DataService)
 class DataServiceTests {
 
-    void testSomething() {
-        fail "Implement me"
-    }
+	void testSomething() {
+		fail "Implement me"
+	}
 }
