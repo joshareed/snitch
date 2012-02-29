@@ -1,0 +1,109 @@
+h1, h2 {
+	margin: 10px 25px 5px;
+}
+
+h2 {
+	font-size: 1.1em;
+}
+
+.filename {
+	font-style: italic;
+}
+
+.exceptionMessage {
+	margin: 10px;
+	padding: 5px;
+	border: 1px solid #000;
+	background-color: #E9E9E9;
+}
+
+.stack,
+.snippet {
+	margin: 0 25px 10px;
+}
+
+.stack,
+.snippet {
+	-mox-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	border: 1px solid #ccc;
+}
+
+/* error details */
+.error-details {
+	overflow: hidden;
+	padding: 5px;
+	padding-left:25px;
+	-mox-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	-mox-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	border-top: 1px solid #FFAAAA;
+	border-bottom: 1px solid #FFAAAA;
+	background-color:#FFF3F3;
+	line-height: 1.5;
+}
+
+.error-details dt {
+	float: left;
+	clear: left;
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+.error-details dt:after {
+	content: ":";
+}
+
+.error-details dd {
+	display: block;
+}
+
+/* stack trace */
+.stack {
+	padding: 5px;
+	overflow: auto;
+	height: 150px;
+}
+
+/* code snippet */
+.snippet {
+	background-color: #fff;
+	font-family: monospace;
+}
+
+.snippet .line {
+	display: block;
+}
+
+.snippet .lineNumber {
+	display: inline-block;
+	margin-right: 5px;
+	padding: 0 3px;
+	width: 3em;
+	background-color: #ddd;
+	color: #999;
+	text-align: right;
+}
+
+.snippet .error {
+	background-color: #fff3f3;
+	font-weight: bold;
+}
+
+.snippet .error .lineNumber {
+	background-color: #faa;
+	color: #333;
+	font-weight: bold;
+}
+
+.snippet .line:first-child .lineNumber {
+	padding-top: 5px;
+}
+
+.snippet .line:last-child .lineNumber {
+	padding-bottom: 5px;
+}

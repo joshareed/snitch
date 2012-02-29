@@ -1,0 +1,6 @@
+.classpath
+.project
+.settings
+.snitch
+target
+stacktrace.log

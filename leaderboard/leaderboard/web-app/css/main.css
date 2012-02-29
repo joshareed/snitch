@@ -1,0 +1,34 @@
+.avatar {
+	float: left;
+	padding-right: 10px;
+	margin-top: -7px;
+}
+.table tbody td {
+	padding-top: 17px;
+}
+.table th:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+.table th.headerSortUp, .table th.headerSortDown {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+.table th.headerSortUp:after {
+	float: right;
+	content: '▲';
+}
+.table th.headerSortDown:after {
+	float: right;
+	content: '▼';
+}
+.chart {
+	margin-bottom: 30px;
+}
+.admin {
+	float: right;
+	margin: 10px;
+	color: #999;
+}
+.admin i {
+	margin-right: 5px;
+}
